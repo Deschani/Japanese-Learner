@@ -23,7 +23,6 @@
             overflow-x: hidden;
         }
 
-        /* Osaka-themed floating elements */
         .osaka-bg {
             position: fixed;
             top: 0;
@@ -91,7 +90,7 @@
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 2rem;
-            max-width: 700px;
+            max-width: 750px;
             width: 100%;
             margin: 0 auto;
             box-shadow: 
@@ -138,7 +137,6 @@
             margin-top: 0.2rem;
         }
 
-        /* Main Menu */
         .main-menu {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -177,7 +175,6 @@
             margin-bottom: 0.3rem;
         }
 
-        /* Pages */
         .page {
             display: none;
             animation: fadeIn 0.4s ease;
@@ -192,7 +189,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Sub-menu for Flash Cards */
         .sub-menu {
             display: flex;
             gap: 0.8rem;
@@ -237,7 +233,6 @@
             color: white;
         }
 
-        /* Flashcard */
         .flashcard {
             background: linear-gradient(145deg, #fff5f7, #fef0f5);
             border-radius: 20px;
@@ -280,6 +275,18 @@
             left: 12px;
             font-size: 0.65rem;
             color: #b895a5;
+        }
+
+        .flashcard .card-type {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 105, 180, 0.1);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            color: #8b4b6a;
+            font-weight: 600;
         }
 
         .flashcard .audio-btn {
@@ -338,7 +345,6 @@
             margin-top: 0.5rem;
         }
 
-        /* Controls */
         .controls {
             display: flex;
             gap: 0.8rem;
@@ -375,7 +381,6 @@
             margin: 0.8rem 0;
         }
 
-        /* Add Card Page */
         .add-form {
             display: flex;
             flex-direction: column;
@@ -479,7 +484,6 @@
             font-style: italic;
         }
 
-        /* Card List */
         .card-list {
             margin-top: 1.5rem;
             max-height: 250px;
@@ -520,6 +524,13 @@
             background: rgba(255, 105, 180, 0.12);
             padding: 2px 10px;
             border-radius: 12px;
+            color: #8b4b6a;
+        }
+        .card-item .type {
+            font-size: 0.6rem;
+            background: rgba(255, 105, 180, 0.08);
+            padding: 1px 8px;
+            border-radius: 10px;
             color: #8b4b6a;
         }
 
@@ -564,7 +575,67 @@
             font-weight: normal;
         }
 
-        /* Responsive */
+        .category-filter {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .category-filter .cat-btn {
+            padding: 6px 16px;
+            border: 2px solid #f0e1e6;
+            border-radius: 20px;
+            background: white;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #2d1b2e;
+            font-weight: 500;
+        }
+
+        .category-filter .cat-btn:hover {
+            border-color: #ffb7c5;
+            background: #fff5f7;
+        }
+
+        .category-filter .cat-btn.active-cat {
+            background: #2d1b2e;
+            color: white;
+            border-color: #2d1b2e;
+        }
+
+        .type-filter {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .type-filter .type-btn {
+            padding: 4px 14px;
+            border: 2px solid #f0e1e6;
+            border-radius: 15px;
+            background: white;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #2d1b2e;
+        }
+
+        .type-filter .type-btn:hover {
+            border-color: #ffb7c5;
+            background: #fff5f7;
+        }
+
+        .type-filter .type-btn.active-type {
+            background: #8b4b6a;
+            color: white;
+            border-color: #8b4b6a;
+        }
+
         @media (max-width: 600px) {
             .container { padding: 1.2rem; }
             .romaji-text { font-size: 2.5rem; }
@@ -581,7 +652,6 @@
     </style>
 </head>
 <body>
-    <!-- Osaka-themed background -->
     <div class="osaka-bg">
         <div class="castle">🏯</div>
         <div class="tako">🐙</div>
@@ -597,10 +667,9 @@
         <div class="header">
             <div class="osaka-icon">🏯</div>
             <h1>Osaka Flash</h1>
-            <div class="subtitle">🌸 Learn Japanese with flashcards 🌸</div>
+            <div class="subtitle">🌸 400 Japanese flashcards with Romaji 🌸</div>
         </div>
 
-        <!-- Main Menu -->
         <div class="main-menu">
             <button class="main-menu-btn active" data-page="flashcards">
                 <span class="icon">🃏</span>
@@ -612,9 +681,7 @@
             </button>
         </div>
 
-        <!-- ===== FLASH CARDS PAGE ===== -->
         <div id="page-flashcards" class="page active">
-            <!-- Sub Menu -->
             <div class="sub-menu" id="subMenu">
                 <button class="sub-menu-btn active-sub" data-sub="random">
                     🎲 Random <span class="badge" id="randomBadge">0</span>
@@ -624,10 +691,10 @@
                 </button>
             </div>
 
-            <!-- Random View -->
             <div id="sub-random" class="sub-page">
                 <div class="flashcard" id="flashcard">
                     <span class="card-category" id="cardCategory">General</span>
+                    <span class="card-type" id="cardType">Phrase</span>
                     <span class="card-added-by" id="cardAddedBy">Added by: System</span>
                     <div class="romaji-text" id="cardRomaji">Konnichiwa</div>
                     <div class="japanese-text" id="cardJapanese">こんにちは</div>
@@ -643,20 +710,30 @@
                 </div>
             </div>
 
-            <!-- Categories View -->
             <div id="sub-categories" class="sub-page" style="display:none;">
+                <div class="type-filter" id="typeFilter">
+                    <button class="type-btn active-type" data-type="all" onclick="filterByType('all')">All</button>
+                    <button class="type-btn" data-type="Single Word" onclick="filterByType('Single Word')">Single Words</button>
+                    <button class="type-btn" data-type="Phrase" onclick="filterByType('Phrase')">Phrases</button>
+                </div>
                 <div class="category-filter" id="categoryFilter"></div>
                 <div id="categoryCards"></div>
             </div>
         </div>
 
-        <!-- ===== ADD CARDS PAGE ===== -->
         <div id="page-addcards" class="page">
             <div class="section-title">📝 Add New Card</div>
             <div class="add-form">
                 <div class="form-row">
                     <input type="text" id="inputEnglish" placeholder="English (e.g., Hello)" />
                     <input type="text" id="inputCategory" placeholder="Category (e.g., Greetings)" />
+                </div>
+                <div class="form-row">
+                    <select id="inputType">
+                        <option value="Phrase">Phrase</option>
+                        <option value="Single Word">Single Word</option>
+                    </select>
+                    <input type="text" id="inputAddedBy" placeholder="Added by (your name)" />
                 </div>
                 <button class="btn-translate" onclick="translateCard()">🌐 Auto-translate to Japanese</button>
                 <div class="translation-preview" id="translationPreview">
@@ -668,7 +745,6 @@
                     <input type="text" id="inputRomaji" placeholder="Romaji (e.g., Konnichiwa)" />
                     <input type="text" id="inputJapanese" placeholder="Japanese (e.g., こんにちは)" />
                 </div>
-                <input type="text" id="inputAddedBy" placeholder="Added by (your name)" />
                 <button class="btn-add-card" onclick="addCard()">➕ Add Card</button>
             </div>
 
@@ -681,23 +757,418 @@
     </div>
 
     <script>
-        // ===== DATA =====
+        // ===== COMPLETE 400-CARD DATA =====
         let cards = [
-            { id: Date.now() + 1, japanese: 'こんにちは', romaji: 'Konnichiwa', english: 'Hello', category: 'Greetings', addedBy: 'System' },
-            { id: Date.now() + 2, japanese: 'おはようございます', romaji: 'Ohayou gozaimasu', english: 'Good morning', category: 'Greetings', addedBy: 'System' },
-            { id: Date.now() + 3, japanese: 'こんばんは', romaji: 'Konbanwa', english: 'Good evening', category: 'Greetings', addedBy: 'System' },
-            { id: Date.now() + 4, japanese: 'ありがとうございます', romaji: 'Arigatou gozaimasu', english: 'Thank you very much', category: 'Basic', addedBy: 'System' },
-            { id: Date.now() + 5, japanese: 'すみません', romaji: 'Sumimasen', english: 'Excuse me / Sorry', category: 'Basic', addedBy: 'System' },
-            { id: Date.now() + 6, japanese: 'はい', romaji: 'Hai', english: 'Yes', category: 'Basic', addedBy: 'System' },
-            { id: Date.now() + 7, japanese: 'いいえ', romaji: 'Iie', english: 'No', category: 'Basic', addedBy: 'System' },
-            { id: Date.now() + 8, japanese: 'おいしい', romaji: 'Oishii', english: 'Delicious', category: 'Food', addedBy: 'System' },
-            { id: Date.now() + 9, japanese: 'トイレはどこですか？', romaji: 'Toire wa doko desu ka?', english: 'Where is the toilet?', category: 'Travel', addedBy: 'System' },
-            { id: Date.now() + 10, japanese: 'いくらですか？', romaji: 'Ikura desu ka?', english: 'How much is it?', category: 'Shopping', addedBy: 'System' }
+            // === PHRASES (1-200) ===
+            { id: 1, japanese: 'こんにちは', romaji: 'Konnichiwa', english: 'Hello / Good afternoon', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 2, japanese: 'おはようございます', romaji: 'Ohayou gozaimasu', english: 'Good morning', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 3, japanese: 'こんばんは', romaji: 'Konbanwa', english: 'Good evening', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 4, japanese: 'おやすみなさい', romaji: 'Oyasuminasai', english: 'Good night', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 5, japanese: 'ありがとう', romaji: 'Arigatou', english: 'Thank you', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 6, japanese: 'ありがとうございます', romaji: 'Arigatou gozaimasu', english: 'Thank you very much', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 7, japanese: 'どうもありがとうございます', romaji: 'Doumo arigatou gozaimasu', english: 'Thank you very much', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 8, japanese: 'どういたしまして', romaji: 'Douitashimashite', english: 'You\'re welcome', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 9, japanese: 'すみません', romaji: 'Sumimasen', english: 'Excuse me / Sorry', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 10, japanese: 'ごめんなさい', romaji: 'Gomennasai', english: 'I\'m sorry', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 11, japanese: 'お願いします', romaji: 'Onegaishimasu', english: 'Please', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 12, japanese: 'どうぞ', romaji: 'Douzo', english: 'Here you go / Please', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 13, japanese: 'はい', romaji: 'Hai', english: 'Yes', category: 'Basic', addedBy: 'System', type: 'Single Word' },
+            { id: 14, japanese: 'いいえ', romaji: 'Iie', english: 'No', category: 'Basic', addedBy: 'System', type: 'Single Word' },
+            { id: 15, japanese: 'わかりました', romaji: 'Wakarimashita', english: 'I understand', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 16, japanese: 'わかりません', romaji: 'Wakarimasen', english: 'I don\'t understand', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 17, japanese: '大丈夫です', romaji: 'Daijoubu desu', english: 'It\'s okay / I\'m fine', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 18, japanese: 'ちょっと待ってください', romaji: 'Chotto matte kudasai', english: 'Please wait a moment', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 19, japanese: 'もう一度お願いします', romaji: 'Mou ichido onegaishimasu', english: 'One more time, please', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 20, japanese: 'ゆっくりお願いします', romaji: 'Yukkuri onegaishimasu', english: 'Slowly, please', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 21, japanese: '日本語を話せますか？', romaji: 'Nihongo o hanasemasu ka?', english: 'Can you speak Japanese?', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 22, japanese: '英語を話せますか？', romaji: 'Eigo o hanasemasu ka?', english: 'Can you speak English?', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 23, japanese: '英語はわかりますか？', romaji: 'Eigo wa wakarimasu ka?', english: 'Do you understand English?', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 24, japanese: '日本語がわかりません', romaji: 'Nihongo ga wakarimasen', english: 'I don\'t understand Japanese', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 25, japanese: '日本語を勉強しています', romaji: 'Nihongo o benkyou shite imasu', english: 'I\'m studying Japanese', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 26, japanese: '日本語が少し話せます', romaji: 'Nihongo ga sukoshi hanasemasu', english: 'I can speak a little Japanese', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 27, japanese: 'これは何ですか？', romaji: 'Kore wa nan desu ka?', english: 'What is this?', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 28, japanese: 'これはどういう意味ですか？', romaji: 'Kore wa douiu imi desu ka?', english: 'What does this mean?', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 29, japanese: 'どう発音しますか？', romaji: 'Dou hatsuon shimasu ka?', english: 'How do you pronounce this?', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 30, japanese: 'もう少しゆっくり話してください', romaji: 'Mou sukoshi yukkuri hanashite kudasai', english: 'Please speak a little more slowly', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 31, japanese: 'はじめまして', romaji: 'Hajimemashite', english: 'Nice to meet you', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 32, japanese: 'よろしくお願いします', romaji: 'Yoroshiku onegaishimasu', english: 'Nice to meet you / Please treat me well', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 33, japanese: 'お名前は何ですか？', romaji: 'Onamae wa nan desu ka?', english: 'What is your name?', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 34, japanese: '私の名前は〜です', romaji: 'Watashi no namae wa ~ desu', english: 'My name is ~', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 35, japanese: 'どこから来ましたか？', romaji: 'Doko kara kimashita ka?', english: 'Where are you from?', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 36, japanese: 'オーストラリアから来ました', romaji: 'Oosutoraria kara kimashita', english: 'I\'m from Australia', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 37, japanese: '日本に来るのは初めてです', romaji: 'Nihon ni kuru no wa hajimete desu', english: 'It\'s my first time in Japan', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 38, japanese: '日本が大好きです', romaji: 'Nihon ga daisuki desu', english: 'I love Japan', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 39, japanese: '日本は素晴らしいです', romaji: 'Nihon wa subarashii desu', english: 'Japan is wonderful', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 40, japanese: 'また会いましょう', romaji: 'Mata aimashou', english: 'See you again', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 41, japanese: 'いくらですか？', romaji: 'Ikura desu ka?', english: 'How much is it?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 42, japanese: 'これはいくらですか？', romaji: 'Kore wa ikura desu ka?', english: 'How much is this?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 43, japanese: '高いです', romaji: 'Takai desu', english: 'It\'s expensive', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 44, japanese: '安いです', romaji: 'Yasui desu', english: 'It\'s cheap', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 45, japanese: 'これをください', romaji: 'Kore o kudasai', english: 'I\'ll take this, please', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 46, japanese: 'これをお願いします', romaji: 'Kore o onegaishimasu', english: 'This one, please', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 47, japanese: 'これとこれをください', romaji: 'Kore to kore o kudasai', english: 'This one and this one, please', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 48, japanese: '見てもいいですか？', romaji: 'Mite mo ii desu ka?', english: 'May I look?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 49, japanese: '試着してもいいですか？', romaji: 'Shichaku shite mo ii desu ka?', english: 'May I try it on?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 50, japanese: 'カードは使えますか？', romaji: 'Kaado wa tsukaemasu ka?', english: 'Can I use a card?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 51, japanese: 'クレジットカードは使えますか？', romaji: 'Kurejitto kaado wa tsukaemasu ka?', english: 'Can I use a credit card?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 52, japanese: '現金だけですか？', romaji: 'Genkin dake desu ka?', english: 'Is it cash only?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 53, japanese: '現金で払います', romaji: 'Genkin de haraimasu', english: 'I\'ll pay with cash', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 54, japanese: 'カードで払います', romaji: 'Kaado de haraimasu', english: 'I\'ll pay by card', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 55, japanese: 'レシートをください', romaji: 'Reshiito o kudasai', english: 'Receipt, please', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 56, japanese: '袋をください', romaji: 'Fukuro o kudasai', english: 'A bag, please', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 57, japanese: '袋はいりません', romaji: 'Fukuro wa irimasen', english: 'I don\'t need a bag', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 58, japanese: 'お釣りです', romaji: 'Otsuri desu', english: 'Here\'s your change', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 59, japanese: '免税できますか？', romaji: 'Menzei dekimasu ka?', english: 'Can I get a tax refund?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 60, japanese: 'これはおすすめですか？', romaji: 'Kore wa osusume desu ka?', english: 'Do you recommend this?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 61, japanese: 'お腹がすきました', romaji: 'Onaka ga sukimashita', english: 'I\'m hungry', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 62, japanese: '喉が渇きました', romaji: 'Nodo ga kawakimashita', english: 'I\'m thirsty', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 63, japanese: 'いただきます', romaji: 'Itadakimasu', english: 'Let\'s eat / Said before eating', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 64, japanese: 'ごちそうさまでした', romaji: 'Gochisousama deshita', english: 'Thank you for the meal', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 65, japanese: 'おいしいです', romaji: 'Oishii desu', english: 'It\'s delicious', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 66, japanese: 'とてもおいしいです', romaji: 'Totemo oishii desu', english: 'It\'s very delicious', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 67, japanese: 'これは何の料理ですか？', romaji: 'Kore wa nan no ryouri desu ka?', english: 'What dish is this?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 68, japanese: '何が入っていますか？', romaji: 'Nani ga haitte imasu ka?', english: 'What is in it?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 69, japanese: '肉が入っていますか？', romaji: 'Niku ga haitte imasu ka?', english: 'Does it contain meat?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 70, japanese: '魚が入っていますか？', romaji: 'Sakana ga haitte imasu ka?', english: 'Does it contain fish?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 71, japanese: '豚肉は入っていますか？', romaji: 'Butaniku wa haitte imasu ka?', english: 'Does it contain pork?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 72, japanese: '牛肉は入っていますか？', romaji: 'Gyuniku wa haitte imasu ka?', english: 'Does it contain beef?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 73, japanese: '鶏肉は入っていますか？', romaji: 'Toriniku wa haitte imasu ka?', english: 'Does it contain chicken?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 74, japanese: '卵は入っていますか？', romaji: 'Tamago wa haitte imasu ka?', english: 'Does it contain egg?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 75, japanese: 'これは辛いですか？', romaji: 'Kore wa karai desu ka?', english: 'Is this spicy?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 76, japanese: '辛くないものはありますか？', romaji: 'Karakunai mono wa arimasu ka?', english: 'Do you have something that isn\'t spicy?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 77, japanese: '水をください', romaji: 'Mizu o kudasai', english: 'Water, please', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 78, japanese: 'お茶をください', romaji: 'Ocha o kudasai', english: 'Tea, please', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 79, japanese: 'ビールをください', romaji: 'Biiru o kudasai', english: 'A beer, please', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 80, japanese: 'メニューをください', romaji: 'Menyuu o kudasai', english: 'Menu, please', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 81, japanese: '予約しています', romaji: 'Yoyaku shite imasu', english: 'I have a reservation', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 82, japanese: '予約していません', romaji: 'Yoyaku shite imasen', english: 'I don\'t have a reservation', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 83, japanese: '予約できますか？', romaji: 'Yoyaku dekimasu ka?', english: 'Can I make a reservation?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 84, japanese: '二人です', romaji: 'Futari desu', english: 'There are two of us', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 85, japanese: '三人です', romaji: 'Sannin desu', english: 'There are three of us', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 86, japanese: '一人です', romaji: 'Hitori desu', english: 'Just one person', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 87, japanese: '席はありますか？', romaji: 'Seki wa arimasu ka?', english: 'Do you have a table/seat?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 88, japanese: 'ここに座ってもいいですか？', romaji: 'Koko ni suwatte mo ii desu ka?', english: 'May I sit here?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 89, japanese: '窓側の席がいいです', romaji: 'Madosawa no seki ga ii desu', english: 'I\'d like a window seat', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 90, japanese: '禁煙席はありますか？', romaji: 'Kin\'en seki wa arimasu ka?', english: 'Do you have a non-smoking seat?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 91, japanese: 'お会計お願いします', romaji: 'Okaikei onegaishimasu', english: 'Check, please', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 92, japanese: '別々に払えますか？', romaji: 'Betsubetsu ni haraemasu ka?', english: 'Can we pay separately?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 93, japanese: 'おすすめは何ですか？', romaji: 'Osusume wa nan desu ka?', english: 'What do you recommend?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 94, japanese: '人気の料理は何ですか？', romaji: 'Ninki no ryouri wa nan desu ka?', english: 'What is the popular dish?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 95, japanese: 'これを注文したいです', romaji: 'Kore o chuumon shitai desu', english: 'I\'d like to order this', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 96, japanese: 'もう注文していいですか？', romaji: 'Mou chuumon shite ii desu ka?', english: 'Can I order now?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 97, japanese: 'まだです', romaji: 'Mada desu', english: 'Not yet', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 98, japanese: '以上です', romaji: 'Ijou desu', english: 'That\'s all', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 99, japanese: 'おかわりできますか？', romaji: 'Okawari dekimasu ka?', english: 'Can I have another serving?', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 100, japanese: 'とても美味しかったです', romaji: 'Totemo oishikatta desu', english: 'It was very delicious', category: 'Food & Dining', addedBy: 'System', type: 'Phrase' },
+            { id: 101, japanese: '駅はどこですか？', romaji: 'Eki wa doko desu ka?', english: 'Where is the station?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 102, japanese: 'トイレはどこですか？', romaji: 'Toire wa doko desu ka?', english: 'Where is the toilet?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 103, japanese: 'ここはどこですか？', romaji: 'Koko wa doko desu ka?', english: 'Where am I?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 104, japanese: '〜はどこですか？', romaji: '~ wa doko desu ka?', english: 'Where is ~?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 105, japanese: 'どうやって行きますか？', romaji: 'Dou yatte ikimasu ka?', english: 'How do I get there?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 106, japanese: 'どう行けばいいですか？', romaji: 'Dou ikeba ii desu ka?', english: 'How should I get there?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 107, japanese: 'まっすぐ行ってください', romaji: 'Massugu itte kudasai', english: 'Please go straight', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 108, japanese: '右です', romaji: 'Migi desu', english: 'It\'s on the right', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 109, japanese: '左です', romaji: 'Hidari desu', english: 'It\'s on the left', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 110, japanese: '右に曲がってください', romaji: 'Migi ni magatte kudasai', english: 'Please turn right', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 111, japanese: '左に曲がってください', romaji: 'Hidari ni magatte kudasai', english: 'Please turn left', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 112, japanese: '近いですか？', romaji: 'Chikai desu ka?', english: 'Is it close?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 113, japanese: '遠いですか？', romaji: 'Tooi desu ka?', english: 'Is it far?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 114, japanese: '徒歩で行けますか？', romaji: 'Toho de ikemasu ka?', english: 'Can I walk there?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 115, japanese: '何分かかりますか？', romaji: 'Nanpun kakarimasu ka?', english: 'How many minutes does it take?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 116, japanese: '地図で見せてもらえますか？', romaji: 'Chizu de misete moraemasu ka?', english: 'Could you show me on the map?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 117, japanese: 'ここに行きたいです', romaji: 'Koko ni ikitai desu', english: 'I want to go here', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 118, japanese: '道に迷いました', romaji: 'Michi ni mayoimashita', english: 'I\'m lost', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 119, japanese: '助けてもらえますか？', romaji: 'Tasukete moraemasu ka?', english: 'Can you help me?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 120, japanese: '近くにコンビニはありますか？', romaji: 'Chikaku ni konbini wa arimasu ka?', english: 'Is there a convenience store nearby?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 121, japanese: '東京駅に行きたいです', romaji: 'Toukyou eki ni ikitai desu', english: 'I want to go to Tokyo Station', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 122, japanese: 'この電車は〜に行きますか？', romaji: 'Kono densha wa ~ ni ikimasu ka?', english: 'Does this train go to ~?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 123, japanese: 'この電車で合っていますか？', romaji: 'Kono densha de atte imasu ka?', english: 'Is this the correct train?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 124, japanese: 'これは何線ですか？', romaji: 'Kore wa nan sen desu ka?', english: 'What line is this?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 125, japanese: '何番線ですか？', romaji: 'Nan ban sen desu ka?', english: 'Which platform is it?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 126, japanese: '次の駅はどこですか？', romaji: 'Tsugi no eki wa doko desu ka?', english: 'What is the next station?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 127, japanese: '次の電車は何時ですか？', romaji: 'Tsugi no densha wa nanji desu ka?', english: 'What time is the next train?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 128, japanese: '電車は何時に出ますか？', romaji: 'Densha wa nanji ni demasu ka?', english: 'What time does the train leave?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 129, japanese: '電車は何時に着きますか？', romaji: 'Densha wa nanji ni tsukimasu ka?', english: 'What time does the train arrive?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 130, japanese: 'この電車は急行ですか？', romaji: 'Kono densha wa kyuukou desu ka?', english: 'Is this an express train?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 131, japanese: '特急ですか？', romaji: 'Tokkyuu desu ka?', english: 'Is this a limited express?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 132, japanese: '新幹線はどこですか？', romaji: 'Shinkansen wa doko desu ka?', english: 'Where is the Shinkansen?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 133, japanese: '切符を買いたいです', romaji: 'Kippu o kaitai desu', english: 'I want to buy a ticket', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 134, japanese: '切符はどこで買えますか？', romaji: 'Kippu wa doko de kaemasu ka?', english: 'Where can I buy a ticket?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 135, japanese: '片道です', romaji: 'Katamichi desu', english: 'One way', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 136, japanese: '往復です', romaji: 'Oufuku desu', english: 'Round trip', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 137, japanese: '指定席をお願いします', romaji: 'Shiteiseki o onegaishimasu', english: 'Reserved seat, please', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 138, japanese: '自由席をお願いします', romaji: 'Jiyuuseki o onegaishimasu', english: 'Non-reserved seat, please', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 139, japanese: 'この席は空いていますか？', romaji: 'Kono seki wa aite imasu ka?', english: 'Is this seat available?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 140, japanese: '乗り換えはどこですか？', romaji: 'Norikae wa doko desu ka?', english: 'Where do I transfer?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 141, japanese: 'タクシーを呼んでください', romaji: 'Takushii o yonde kudasai', english: 'Please call a taxi', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 142, japanese: 'タクシー乗り場はどこですか？', romaji: 'Takushii noriba wa doko desu ka?', english: 'Where is the taxi stand?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 143, japanese: 'ここまでお願いします', romaji: 'Koko made onegaishimasu', english: 'Please take me here', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 144, japanese: '空港までお願いします', romaji: 'Kuukou made onegaishimasu', english: 'To the airport, please', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 145, japanese: 'ここで降ります', romaji: 'Koko de orimasu', english: 'I\'ll get off here', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 146, japanese: 'いくらぐらいかかりますか？', romaji: 'Ikura gurai kakarimasu ka?', english: 'About how much will it cost?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 147, japanese: 'どのくらいかかりますか？', romaji: 'Dono kurai kakarimasu ka?', english: 'How long will it take?', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 148, japanese: 'ここで止めてください', romaji: 'Koko de tomete kudasai', english: 'Please stop here', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 149, japanese: 'ここまでで大丈夫です', romaji: 'Koko made de daijoubu desu', english: 'Here is fine', category: 'Transport', addedBy: 'System', type: 'Phrase' },
+            { id: 150, japanese: 'ありがとうございます', romaji: 'Arigatou gozaimasu', english: 'Thank you', category: 'Greetings', addedBy: 'System', type: 'Phrase' },
+            { id: 151, japanese: 'ホテルはどこですか？', romaji: 'Hoteru wa doko desu ka?', english: 'Where is the hotel?', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 152, japanese: 'チェックインをお願いします', romaji: 'Chekkuin o onegaishimasu', english: 'I\'d like to check in', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 153, japanese: 'チェックアウトをお願いします', romaji: 'Chekkuauto o onegaishimasu', english: 'I\'d like to check out', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 154, japanese: '予約の名前は〜です', romaji: 'Yoyaku no namae wa ~ desu', english: 'The reservation is under the name ~', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 155, japanese: 'パスポートはこちらです', romaji: 'Pasupooto wa kochira desu', english: 'Here\'s my passport', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 156, japanese: '部屋は何階ですか？', romaji: 'Heya wa nan kai desu ka?', english: 'What floor is the room on?', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 157, japanese: 'Wi-Fiはありますか？', romaji: 'Wai-Fai wa arimasu ka?', english: 'Is there Wi-Fi?', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 158, japanese: 'Wi-Fiのパスワードは何ですか？', romaji: 'Wai-Fai no pasuwaado wa nan desu ka?', english: 'What is the Wi-Fi password?', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 159, japanese: '朝食は何時ですか？', romaji: 'Choushoku wa nanji desu ka?', english: 'What time is breakfast?', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 160, japanese: '朝食はどこですか？', romaji: 'Choushoku wa doko desu ka?', english: 'Where is breakfast?', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 161, japanese: '荷物を預けてもいいですか？', romaji: 'Nimotsu o azukete mo ii desu ka?', english: 'Can I leave my luggage here?', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 162, japanese: '荷物を預けたいです', romaji: 'Nimotsu o azuketai desu', english: 'I\'d like to leave my luggage', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 163, japanese: '部屋の鍵をなくしました', romaji: 'Heya no kagi o nakushimashita', english: 'I lost my room key', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 164, japanese: '部屋に問題があります', romaji: 'Heya ni mondai ga arimasu', english: 'There is a problem with my room', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 165, japanese: 'エアコンが動きません', romaji: 'Eakon ga ugokimasen', english: 'The air conditioner doesn\'t work', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 166, japanese: 'お湯が出ません', romaji: 'Oyu ga demasen', english: 'There is no hot water', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 167, japanese: 'タオルをもう一枚ください', romaji: 'Taoru o mou ichimai kudasai', english: 'Another towel, please', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 168, japanese: '部屋を掃除してください', romaji: 'Heya o souji shite kudasai', english: 'Please clean the room', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 169, japanese: '大丈夫です、ありがとうございます', romaji: 'Daijoubu desu, arigatou gozaimasu', english: 'It\'s okay, thank you', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 170, japanese: 'とても快適です', romaji: 'Totemo kaiteki desu', english: 'It\'s very comfortable', category: 'Accommodation', addedBy: 'System', type: 'Phrase' },
+            { id: 171, japanese: '写真を撮ってもらえますか？', romaji: 'Shashin o totte moraemasu ka?', english: 'Could you take a photo for me?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 172, japanese: '一緒に写真を撮ってもいいですか？', romaji: 'Issho ni shashin o totte mo ii desu ka?', english: 'Can we take a photo together?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 173, japanese: '写真を撮ってもいいですか？', romaji: 'Shashin o totte mo ii desu ka?', english: 'May I take a photo?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 174, japanese: 'ここは写真を撮ってもいいですか？', romaji: 'Koko wa shashin o totte mo ii desu ka?', english: 'Is it okay to take photos here?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 175, japanese: '触ってもいいですか？', romaji: 'Sawatte mo ii desu ka?', english: 'May I touch this?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 176, japanese: '入ってもいいですか？', romaji: 'Haitte mo ii desu ka?', english: 'May I enter?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 177, japanese: 'ここで待ってもいいですか？', romaji: 'Koko de matte mo ii desu ka?', english: 'May I wait here?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 178, japanese: 'ここで使ってもいいですか？', romaji: 'Koko de tsukatte mo ii desu ka?', english: 'May I use this here?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 179, japanese: '靴を脱いだほうがいいですか？', romaji: 'Kutsu o nuida hou ga ii desu ka?', english: 'Should I take my shoes off?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 180, japanese: 'これはどう使いますか？', romaji: 'Kore wa dou tsukaimasu ka?', english: 'How do I use this?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 181, japanese: '助けてください', romaji: 'Tasukete kudasai', english: 'Please help me', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 182, japanese: '警察を呼んでください', romaji: 'Keisatsu o yonde kudasai', english: 'Please call the police', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 183, japanese: '救急車を呼んでください', romaji: 'Kyuukyuusha o yonde kudasai', english: 'Please call an ambulance', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 184, japanese: '病院はどこですか？', romaji: 'Byouin wa doko desu ka?', english: 'Where is the hospital?', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 185, japanese: '薬局はどこですか？', romaji: 'Yakkyoku wa doko desu ka?', english: 'Where is the pharmacy?', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 186, japanese: '気分が悪いです', romaji: 'Kibun ga warui desu', english: 'I feel sick', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 187, japanese: '怪我をしました', romaji: 'Kega o shimashita', english: 'I\'m injured', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 188, japanese: '痛いです', romaji: 'Itai desu', english: 'It hurts', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 189, japanese: '大丈夫です', romaji: 'Daijoubu desu', english: 'I\'m okay', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 190, japanese: '緊急です', romaji: 'Kinkyuu desu', english: 'It\'s an emergency', category: 'Emergency', addedBy: 'System', type: 'Phrase' },
+            { id: 191, japanese: '何時ですか？', romaji: 'Nanji desu ka?', english: 'What time is it?', category: 'Time & Numbers', addedBy: 'System', type: 'Phrase' },
+            { id: 192, japanese: '今日は何曜日ですか？', romaji: 'Kyou wa nan youbi desu ka?', english: 'What day is it today?', category: 'Time & Numbers', addedBy: 'System', type: 'Phrase' },
+            { id: 193, japanese: 'これは無料ですか？', romaji: 'Kore wa muryou desu ka?', english: 'Is this free?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 194, japanese: '使えますか？', romaji: 'Tsukaemasu ka?', english: 'Can I use this?', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 195, japanese: 'どちらがおすすめですか？', romaji: 'Dochira ga osusume desu ka?', english: 'Which one do you recommend?', category: 'Shopping', addedBy: 'System', type: 'Phrase' },
+            { id: 196, japanese: 'もう少しお願いします', romaji: 'Mou sukoshi onegaishimasu', english: 'A little more, please', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 197, japanese: 'これで大丈夫です', romaji: 'Kore de daijoubu desu', english: 'This is fine', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 198, japanese: 'わかりました、ありがとうございます', romaji: 'Wakarimashita, arigatou gozaimasu', english: 'I understand, thank you', category: 'Basic', addedBy: 'System', type: 'Phrase' },
+            { id: 199, japanese: '楽しかったです', romaji: 'Tanoshikatta desu', english: 'I had a great time', category: 'General', addedBy: 'System', type: 'Phrase' },
+            { id: 200, japanese: 'また日本に来たいです', romaji: 'Mata Nihon ni kitai desu', english: 'I want to come to Japan again', category: 'General', addedBy: 'System', type: 'Phrase' },
+
+            // === SINGLE WORDS (201-400) ===
+            { id: 201, japanese: '水', romaji: 'Mizu', english: 'Water', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 202, japanese: 'お湯', romaji: 'Oyu', english: 'Hot water', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 203, japanese: '氷', romaji: 'Koori', english: 'Ice', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 204, japanese: 'お茶', romaji: 'Ocha', english: 'Tea', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 205, japanese: 'コーヒー', romaji: 'Koohii', english: 'Coffee', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 206, japanese: 'ビール', romaji: 'Biiru', english: 'Beer', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 207, japanese: '食べ物', romaji: 'Tabemono', english: 'Food', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 208, japanese: '飲み物', romaji: 'Nomimono', english: 'Drink', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 209, japanese: 'ご飯', romaji: 'Gohan', english: 'Rice / Meal', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 210, japanese: 'パン', romaji: 'Pan', english: 'Bread', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 211, japanese: '肉', romaji: 'Niku', english: 'Meat', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 212, japanese: '牛肉', romaji: 'Gyuniku', english: 'Beef', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 213, japanese: '豚肉', romaji: 'Butaniku', english: 'Pork', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 214, japanese: '鶏肉', romaji: 'Toriniku', english: 'Chicken', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 215, japanese: '魚', romaji: 'Sakana', english: 'Fish', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 216, japanese: '海鮮', romaji: 'Kaisen', english: 'Seafood', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 217, japanese: '卵', romaji: 'Tamago', english: 'Egg', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 218, japanese: '野菜', romaji: 'Yasai', english: 'Vegetables', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 219, japanese: '果物', romaji: 'Kudamono', english: 'Fruit', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 220, japanese: '米', romaji: 'Kome', english: 'Rice (uncooked)', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 221, japanese: '塩', romaji: 'Shio', english: 'Salt', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 222, japanese: '砂糖', romaji: 'Satou', english: 'Sugar', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 223, japanese: '醤油', romaji: 'Shouyu', english: 'Soy sauce', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 224, japanese: '味噌', romaji: 'Miso', english: 'Miso', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 225, japanese: 'ソース', romaji: 'Soosu', english: 'Sauce', category: 'Food & Drink', addedBy: 'System', type: 'Single Word' },
+            { id: 226, japanese: '辛い', romaji: 'Karai', english: 'Spicy', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 227, japanese: '甘い', romaji: 'Amai', english: 'Sweet', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 228, japanese: '苦い', romaji: 'Nigai', english: 'Bitter', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 229, japanese: '酸っぱい', romaji: 'Suppai', english: 'Sour', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 230, japanese: '美味しい', romaji: 'Oishii', english: 'Delicious', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 231, japanese: 'トイレ', romaji: 'Toire', english: 'Toilet', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 232, japanese: '駅', romaji: 'Eki', english: 'Station', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 233, japanese: '空港', romaji: 'Kuukou', english: 'Airport', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 234, japanese: 'ホテル', romaji: 'Hoteru', english: 'Hotel', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 235, japanese: '店', romaji: 'Mise', english: 'Shop / Store', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 236, japanese: 'コンビニ', romaji: 'Konbini', english: 'Convenience store', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 237, japanese: 'レストラン', romaji: 'Resutoran', english: 'Restaurant', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 238, japanese: '銀行', romaji: 'Ginkou', english: 'Bank', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 239, japanese: '病院', romaji: 'Byouin', english: 'Hospital', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 240, japanese: '薬局', romaji: 'Yakkyoku', english: 'Pharmacy', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 241, japanese: '電車', romaji: 'Densha', english: 'Train', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 242, japanese: '新幹線', romaji: 'Shinkansen', english: 'Bullet train', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 243, japanese: '地下鉄', romaji: 'Chikatetsu', english: 'Subway', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 244, japanese: 'バス', romaji: 'Basu', english: 'Bus', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 245, japanese: 'タクシー', romaji: 'Takushii', english: 'Taxi', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 246, japanese: '車', romaji: 'Kuruma', english: 'Car', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 247, japanese: '自転車', romaji: 'Jitensha', english: 'Bicycle', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 248, japanese: '切符', romaji: 'Kippu', english: 'Ticket', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 249, japanese: '駅員', romaji: 'Ekiin', english: 'Station staff', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 250, japanese: '改札', romaji: 'Kaisatsu', english: 'Ticket gate', category: 'Transport', addedBy: 'System', type: 'Single Word' },
+            { id: 251, japanese: '右', romaji: 'Migi', english: 'Right', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 252, japanese: '左', romaji: 'Hidari', english: 'Left', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 253, japanese: '前', romaji: 'Mae', english: 'Front / Ahead', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 254, japanese: '後ろ', romaji: 'Ushiro', english: 'Behind', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 255, japanese: '上', romaji: 'Ue', english: 'Up / Above', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 256, japanese: '下', romaji: 'Shita', english: 'Down / Below', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 257, japanese: '中', romaji: 'Naka', english: 'Inside', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 258, japanese: '外', romaji: 'Soto', english: 'Outside', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 259, japanese: '近く', romaji: 'Chikaku', english: 'Nearby', category: 'Directions', addedBy: 'System', type: 'Single Word' },
+            { id: 260, japanese: '遠い', romaji: 'Tooi', english: 'Far', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 261, japanese: '大きい', romaji: 'Ookii', english: 'Big', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 262, japanese: '小さい', romaji: 'Chiisai', english: 'Small', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 263, japanese: '長い', romaji: 'Nagai', english: 'Long', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 264, japanese: '短い', romaji: 'Mijikai', english: 'Short', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 265, japanese: '高い', romaji: 'Takai', english: 'Expensive / High', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 266, japanese: '安い', romaji: 'Yasui', english: 'Cheap', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 267, japanese: '新しい', romaji: 'Atarashii', english: 'New', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 268, japanese: '古い', romaji: 'Furui', english: 'Old', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 269, japanese: '良い', romaji: 'Yoi / Ii', english: 'Good', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 270, japanese: '悪い', romaji: 'Warui', english: 'Bad', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 271, japanese: '暑い', romaji: 'Atsui', english: 'Hot (weather)', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 272, japanese: '寒い', romaji: 'Samui', english: 'Cold (weather)', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 273, japanese: '熱い', romaji: 'Atsui', english: 'Hot (touch / food)', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 274, japanese: '冷たい', romaji: 'Tsumetai', english: 'Cold (touch / food)', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 275, japanese: '暖かい', romaji: 'Atatakai', english: 'Warm', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 276, japanese: '涼しい', romaji: 'Suzushii', english: 'Cool', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 277, japanese: '雪', romaji: 'Yuki', english: 'Snow', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 278, japanese: '雨', romaji: 'Ame', english: 'Rain', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 279, japanese: '晴れ', romaji: 'Hare', english: 'Sunny / Clear weather', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 280, japanese: '天気', romaji: 'Tenki', english: 'Weather', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 281, japanese: '今日', romaji: 'Kyou', english: 'Today', category: 'Time', addedBy: 'System', type: 'Single Word' },
+            { id: 282, japanese: '明日', romaji: 'Ashita', english: 'Tomorrow', category: 'Time', addedBy: 'System', type: 'Single Word' },
+            { id: 283, japanese: '昨日', romaji: 'Kinou', english: 'Yesterday', category: 'Time', addedBy: 'System', type: 'Single Word' },
+            { id: 284, japanese: '今', romaji: 'Ima', english: 'Now', category: 'Time', addedBy: 'System', type: 'Single Word' },
+            { id: 285, japanese: '朝', romaji: 'Asa', english: 'Morning', category: 'Time', addedBy: 'System', type: 'Single Word' },
+            { id: 286, japanese: '昼', romaji: 'Hiru', english: 'Daytime / Noon', category: 'Time', addedBy: 'System', type: 'Single Word' },
+            { id: 287, japanese: '夜', romaji: 'Yoru', english: 'Night', category: 'Time', addedBy: 'System', type: 'Single Word' },
+            { id: 288, japanese: '今夜', romaji: 'Konya', english: 'Tonight', category: 'Time', addedBy: 'System', type: 'Single Word' },
+            { id: 289, japanese: '早い', romaji: 'Hayai', english: 'Early / Fast', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 290, japanese: '遅い', romaji: 'Osoi', english: 'Late / Slow', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 291, japanese: '一', romaji: 'Ichi', english: 'One', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 292, japanese: '二', romaji: 'Ni', english: 'Two', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 293, japanese: '三', romaji: 'San', english: 'Three', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 294, japanese: '四', romaji: 'Yon / Shi', english: 'Four', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 295, japanese: '五', romaji: 'Go', english: 'Five', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 296, japanese: '六', romaji: 'Roku', english: 'Six', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 297, japanese: '七', romaji: 'Nana / Shichi', english: 'Seven', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 298, japanese: '八', romaji: 'Hachi', english: 'Eight', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 299, japanese: '九', romaji: 'Kyuu / Ku', english: 'Nine', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 300, japanese: '十', romaji: 'Juu', english: 'Ten', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 301, japanese: '百', romaji: 'Hyaku', english: 'Hundred', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 302, japanese: '千', romaji: 'Sen', english: 'Thousand', category: 'Numbers', addedBy: 'System', type: 'Single Word' },
+            { id: 303, japanese: '円', romaji: 'En', english: 'Yen', category: 'Money', addedBy: 'System', type: 'Single Word' },
+            { id: 304, japanese: 'お金', romaji: 'Okane', english: 'Money', category: 'Money', addedBy: 'System', type: 'Single Word' },
+            { id: 305, japanese: '値段', romaji: 'Nedan', english: 'Price', category: 'Money', addedBy: 'System', type: 'Single Word' },
+            { id: 306, japanese: '無料', romaji: 'Muryou', english: 'Free', category: 'Money', addedBy: 'System', type: 'Single Word' },
+            { id: 307, japanese: '現金', romaji: 'Genkin', english: 'Cash', category: 'Money', addedBy: 'System', type: 'Single Word' },
+            { id: 308, japanese: 'カード', romaji: 'Kaado', english: 'Card', category: 'Money', addedBy: 'System', type: 'Single Word' },
+            { id: 309, japanese: '入口', romaji: 'Iriguchi', english: 'Entrance', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 310, japanese: '出口', romaji: 'Deguchi', english: 'Exit', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 311, japanese: '男', romaji: 'Otoko', english: 'Man', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 312, japanese: '女', romaji: 'Onna', english: 'Woman', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 313, japanese: '男性', romaji: 'Dansei', english: 'Male / Man', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 314, japanese: '女性', romaji: 'Josei', english: 'Female / Woman', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 315, japanese: '子供', romaji: 'Kodomo', english: 'Child', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 316, japanese: '友達', romaji: 'Tomodachi', english: 'Friend', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 317, japanese: '人', romaji: 'Hito', english: 'Person', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 318, japanese: '店員', romaji: 'Tenin', english: 'Shop staff', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 319, japanese: '先生', romaji: 'Sensei', english: 'Teacher', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 320, japanese: '外国人', romaji: 'Gaikokujin', english: 'Foreigner', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 321, japanese: '日本', romaji: 'Nihon', english: 'Japan', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 322, japanese: '日本人', romaji: 'Nihonjin', english: 'Japanese person', category: 'People', addedBy: 'System', type: 'Single Word' },
+            { id: 323, japanese: '英語', romaji: 'Eigo', english: 'English', category: 'Language', addedBy: 'System', type: 'Single Word' },
+            { id: 324, japanese: '日本語', romaji: 'Nihongo', english: 'Japanese language', category: 'Language', addedBy: 'System', type: 'Single Word' },
+            { id: 325, japanese: 'オーストラリア', romaji: 'Oosutoraria', english: 'Australia', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 326, japanese: '東京', romaji: 'Toukyou', english: 'Tokyo', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 327, japanese: '大阪', romaji: 'Oosaka', english: 'Osaka', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 328, japanese: '京都', romaji: 'Kyouto', english: 'Kyoto', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 329, japanese: '北海道', romaji: 'Hokkaidou', english: 'Hokkaido', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 330, japanese: '沖縄', romaji: 'Okinawa', english: 'Okinawa', category: 'Places', addedBy: 'System', type: 'Single Word' },
+            { id: 331, japanese: '楽しい', romaji: 'Tanoshii', english: 'Fun / Enjoyable', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 332, japanese: '面白い', romaji: 'Omoshiroi', english: 'Interesting / Funny', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 333, japanese: 'つまらない', romaji: 'Tsumaranai', english: 'Boring', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 334, japanese: '綺麗', romaji: 'Kirei', english: 'Beautiful / Clean', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 335, japanese: '汚い', romaji: 'Kitanai', english: 'Dirty', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 336, japanese: '静か', romaji: 'Shizuka', english: 'Quiet', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 337, japanese: '賑やか', romaji: 'Nigiyaka', english: 'Lively / Bustling', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 338, japanese: '忙しい', romaji: 'Isogashii', english: 'Busy', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 339, japanese: '疲れた', romaji: 'Tsukareta', english: 'Tired', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 340, japanese: '元気', romaji: 'Genki', english: 'Well / Energetic', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 341, japanese: '痛い', romaji: 'Itai', english: 'Painful / Hurts', category: 'Adjectives', addedBy: 'System', type: 'Single Word' },
+            { id: 342, japanese: '病気', romaji: 'Byouki', english: 'Illness / Sick', category: 'Health', addedBy: 'System', type: 'Single Word' },
+            { id: 343, japanese: '薬', romaji: 'Kusuri', english: 'Medicine', category: 'Health', addedBy: 'System', type: 'Single Word' },
+            { id: 344, japanese: '怪我', romaji: 'Kega', english: 'Injury', category: 'Health', addedBy: 'System', type: 'Single Word' },
+            { id: 345, japanese: '頭', romaji: 'Atama', english: 'Head', category: 'Body', addedBy: 'System', type: 'Single Word' },
+            { id: 346, japanese: 'お腹', romaji: 'Onaka', english: 'Stomach / Belly', category: 'Body', addedBy: 'System', type: 'Single Word' },
+            { id: 347, japanese: '喉', romaji: 'Nodo', english: 'Throat', category: 'Body', addedBy: 'System', type: 'Single Word' },
+            { id: 348, japanese: '手', romaji: 'Te', english: 'Hand', category: 'Body', addedBy: 'System', type: 'Single Word' },
+            { id: 349, japanese: '足', romaji: 'Ashi', english: 'Foot / Leg', category: 'Body', addedBy: 'System', type: 'Single Word' },
+            { id: 350, japanese: '目', romaji: 'Me', english: 'Eye', category: 'Body', addedBy: 'System', type: 'Single Word' },
+            { id: 351, japanese: '靴', romaji: 'Kutsu', english: 'Shoes', category: 'Clothing', addedBy: 'System', type: 'Single Word' },
+            { id: 352, japanese: '服', romaji: 'Fuku', english: 'Clothes', category: 'Clothing', addedBy: 'System', type: 'Single Word' },
+            { id: 353, japanese: '傘', romaji: 'Kasa', english: 'Umbrella', category: 'Items', addedBy: 'System', type: 'Single Word' },
+            { id: 354, japanese: '荷物', romaji: 'Nimotsu', english: 'Luggage / Baggage', category: 'Items', addedBy: 'System', type: 'Single Word' },
+            { id: 355, japanese: '鞄', romaji: 'Kaban', english: 'Bag', category: 'Items', addedBy: 'System', type: 'Single Word' },
+            { id: 356, japanese: '財布', romaji: 'Saifu', english: 'Wallet', category: 'Items', addedBy: 'System', type: 'Single Word' },
+            { id: 357, japanese: '鍵', romaji: 'Kagi', english: 'Key', category: 'Items', addedBy: 'System', type: 'Single Word' },
+            { id: 358, japanese: '携帯', romaji: 'Keitai', english: 'Mobile phone', category: 'Items', addedBy: 'System', type: 'Single Word' },
+            { id: 359, japanese: '電話', romaji: 'Denwa', english: 'Telephone', category: 'Items', addedBy: 'System', type: 'Single Word' },
+            { id: 360, japanese: '写真', romaji: 'Shashin', english: 'Photo', category: 'Items', addedBy: 'System', type: 'Single Word' },
+            { id: 361, japanese: '雪', romaji: 'Yuki', english: 'Snow', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 362, japanese: '山', romaji: 'Yama', english: 'Mountain', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 363, japanese: '海', romaji: 'Umi', english: 'Sea / Ocean', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 364, japanese: '川', romaji: 'Kawa', english: 'River', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 365, japanese: '湖', romaji: 'Mizuumi', english: 'Lake', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 366, japanese: '温泉', romaji: 'Onsen', english: 'Hot spring', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 367, japanese: '風', romaji: 'Kaze', english: 'Wind', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 368, japanese: '雲', romaji: 'Kumo', english: 'Cloud', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 369, japanese: '空', romaji: 'Sora', english: 'Sky', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 370, japanese: '天気', romaji: 'Tenki', english: 'Weather', category: 'Nature', addedBy: 'System', type: 'Single Word' },
+            { id: 371, japanese: 'これ', romaji: 'Kore', english: 'This', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 372, japanese: 'それ', romaji: 'Sore', english: 'That', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 373, japanese: 'あれ', romaji: 'Are', english: 'That over there', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 374, japanese: 'ここ', romaji: 'Koko', english: 'Here', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 375, japanese: 'そこ', romaji: 'Soko', english: 'There', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 376, japanese: 'あそこ', romaji: 'Asoko', english: 'Over there', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 377, japanese: 'どこ', romaji: 'Doko', english: 'Where', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 378, japanese: '何', romaji: 'Nani / Nan', english: 'What', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 379, japanese: '誰', romaji: 'Dare', english: 'Who', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 380, japanese: 'いつ', romaji: 'Itsu', english: 'When', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 381, japanese: 'どれ', romaji: 'Dore', english: 'Which one', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 382, japanese: 'どちら', romaji: 'Dochira', english: 'Which / Where', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 383, japanese: 'どう', romaji: 'Dou', english: 'How', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 384, japanese: 'なぜ', romaji: 'Naze', english: 'Why', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 385, japanese: 'いくら', romaji: 'Ikura', english: 'How much', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 386, japanese: 'たくさん', romaji: 'Takusan', english: 'A lot / Many', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 387, japanese: '少し', romaji: 'Sukoshi', english: 'A little', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 388, japanese: '全部', romaji: 'Zenbu', english: 'Everything / All', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 389, japanese: '同じ', romaji: 'Onaji', english: 'Same', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 390, japanese: '違う', romaji: 'Chigau', english: 'Different / Wrong', category: 'Grammar', addedBy: 'System', type: 'Single Word' },
+            { id: 391, japanese: '開く', romaji: 'Hiraku', english: 'Open', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 392, japanese: '閉める', romaji: 'Shimeru', english: 'Close', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 393, japanese: '入る', romaji: 'Hairu', english: 'Enter / Go in', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 394, japanese: '出る', romaji: 'Deru', english: 'Exit / Go out', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 395, japanese: '行く', romaji: 'Iku', english: 'Go', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 396, japanese: '来る', romaji: 'Kuru', english: 'Come', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 397, japanese: '食べる', romaji: 'Taberu', english: 'Eat', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 398, japanese: '飲む', romaji: 'Nomu', english: 'Drink', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 399, japanese: '見る', romaji: 'Miru', english: 'See / Watch', category: 'Verbs', addedBy: 'System', type: 'Single Word' },
+            { id: 400, japanese: '買う', romaji: 'Kau', english: 'Buy', category: 'Verbs', addedBy: 'System', type: 'Single Word' }
         ];
 
+        // ===== APP STATE =====
         let currentIndex = 0;
         let currentView = 'random';
         let currentCategory = 'All';
+        let currentType = 'all';
         let isShowingEnglish = false;
         let currentCardId = null;
 
@@ -718,61 +1189,18 @@
             updateUI();
         }
 
-        // ===== ROMAJI CONVERTER =====
-        function toRomaji(japanese) {
-            const map = {
-                'あ': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o',
-                'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko',
-                'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so',
-                'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to',
-                'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no',
-                'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho',
-                'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo',
-                'や': 'ya', 'ゆ': 'yu', 'よ': 'yo',
-                'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro',
-                'わ': 'wa', 'を': 'wo', 'ん': 'n',
-                'が': 'ga', 'ぎ': 'gi', 'ぐ': 'gu', 'げ': 'ge', 'ご': 'go',
-                'ざ': 'za', 'じ': 'ji', 'ず': 'zu', 'ぜ': 'ze', 'ぞ': 'zo',
-                'だ': 'da', 'ぢ': 'ji', 'づ': 'zu', 'で': 'de', 'ど': 'do',
-                'ば': 'ba', 'び': 'bi', 'ぶ': 'bu', 'べ': 'be', 'ぼ': 'bo',
-                'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po',
-                'きゃ': 'kya', 'きゅ': 'kyu', 'きょ': 'kyo',
-                'しゃ': 'sha', 'しゅ': 'shu', 'しょ': 'sho',
-                'ちゃ': 'cha', 'ちゅ': 'chu', 'ちょ': 'cho',
-                'にゃ': 'nya', 'にゅ': 'nyu', 'にょ': 'nyo',
-                'ひゃ': 'hya', 'ひゅ': 'hyu', 'ひょ': 'hyo',
-                'みゃ': 'mya', 'みゅ': 'myu', 'みょ': 'myo',
-                'りゃ': 'rya', 'りゅ': 'ryu', 'りょ': 'ryo',
-                'ぎゃ': 'gya', 'ぎゅ': 'gyu', 'ぎょ': 'gyo',
-                'じゃ': 'ja', 'じゅ': 'ju', 'じょ': 'jo',
-                'びゃ': 'bya', 'びゅ': 'byu', 'びょ': 'byo',
-                'ぴゃ': 'pya', 'ぴゅ': 'pyu', 'ぴょ': 'pyo',
-                'っ': '', 'ー': ''
-            };
-            
-            let result = '';
-            let i = 0;
-            while (i < japanese.length) {
-                if (i + 1 < japanese.length) {
-                    const twoChar = japanese.substring(i, i + 2);
-                    if (map[twoChar] !== undefined) {
-                        result += map[twoChar];
-                        i += 2;
-                        continue;
-                    }
-                }
-                const char = japanese[i];
-                result += map[char] !== undefined ? map[char] : char;
-                i++;
-            }
-            return result;
-        }
-
         // ===== GET FILTERED CARDS =====
         function getFilteredCards() {
-            if (currentView === 'random') return cards;
-            if (currentCategory === 'All') return cards;
-            return cards.filter(c => (c.category || 'Uncategorized') === currentCategory);
+            let filtered = cards;
+            if (currentView === 'categories') {
+                if (currentCategory !== 'All') {
+                    filtered = filtered.filter(c => (c.category || 'Uncategorized') === currentCategory);
+                }
+                if (currentType !== 'all') {
+                    filtered = filtered.filter(c => c.type === currentType);
+                }
+            }
+            return filtered;
         }
 
         function getCategories() {
@@ -787,6 +1215,7 @@
             updateBadges();
             updateCategoryFilter();
             updateCardCount();
+            updateTypeFilter();
         }
 
         function updateCardDisplay() {
@@ -797,6 +1226,7 @@
                 document.getElementById('cardEnglish').textContent = '';
                 document.getElementById('cardEnglish').classList.remove('show');
                 document.getElementById('cardCategory').textContent = '—';
+                document.getElementById('cardType').textContent = '—';
                 document.getElementById('cardAddedBy').textContent = '';
                 document.getElementById('cardProgress').textContent = '0 / 0';
                 return;
@@ -807,11 +1237,12 @@
 
             const card = filtered[currentIndex];
             currentCardId = card.id;
-            document.getElementById('cardRomaji').textContent = card.romaji || toRomaji(card.japanese);
+            document.getElementById('cardRomaji').textContent = card.romaji || '';
             document.getElementById('cardJapanese').textContent = card.japanese;
             document.getElementById('cardEnglish').textContent = card.english;
             document.getElementById('cardEnglish').classList.remove('show');
             document.getElementById('cardCategory').textContent = card.category || 'Uncategorized';
+            document.getElementById('cardType').textContent = card.type || 'Phrase';
             document.getElementById('cardAddedBy').textContent = 'Added by: ' + (card.addedBy || 'System');
             isShowingEnglish = false;
             document.getElementById('cardProgress').textContent = (currentIndex + 1) + ' / ' + filtered.length;
@@ -827,9 +1258,10 @@
                 <div class="card-item">
                     <span>
                         <span class="jp">${c.japanese}</span>
-                        <span class="rom">(${c.romaji || toRomaji(c.japanese)})</span>
+                        <span class="rom">(${c.romaji || ''})</span>
                         <span class="en">— ${c.english}</span>
                         <span class="cat">${c.category || 'Uncategorized'}</span>
+                        <span class="type">${c.type || 'Phrase'}</span>
                     </span>
                     <button class="btn-delete" onclick="deleteCard(${i})">✕</button>
                 </div>
@@ -845,13 +1277,12 @@
             const container = document.getElementById('categoryFilter');
             const categories = getCategories();
             container.innerHTML = categories.map(cat => `
-                <button class="sub-menu-btn ${cat === currentCategory ? 'active-sub' : ''}" 
+                <button class="cat-btn ${cat === currentCategory ? 'active-cat' : ''}" 
                         onclick="selectCategory('${cat.replace(/'/g, "\\'")}')">
                     ${cat} <span class="badge">${cards.filter(c => (c.category || 'Uncategorized') === cat || (cat === 'All' && true)).length}</span>
                 </button>
             `).join('');
 
-            // Show cards in selected category
             const filtered = getFilteredCards();
             const container2 = document.getElementById('categoryCards');
             if (filtered.length === 0) {
@@ -861,7 +1292,7 @@
                     <div class="card-item" style="margin-bottom:6px;">
                         <span>
                             <span class="jp">${c.japanese}</span>
-                            <span class="rom">(${c.romaji || toRomaji(c.japanese)})</span>
+                            <span class="rom">(${c.romaji || ''})</span>
                             <span class="en">— ${c.english}</span>
                         </span>
                     </div>
@@ -869,8 +1300,28 @@
             }
         }
 
+        function updateTypeFilter() {
+            const buttons = document.querySelectorAll('.type-btn');
+            buttons.forEach(btn => {
+                btn.classList.toggle('active-type', btn.dataset.type === currentType);
+            });
+        }
+
         function updateCardCount() {
             document.getElementById('cardCount').textContent = '(' + cards.length + ')';
+        }
+
+        // ===== FILTER FUNCTIONS =====
+        function filterByType(type) {
+            currentType = type;
+            currentIndex = 0;
+            updateUI();
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            currentIndex = 0;
+            updateUI();
         }
 
         // ===== FLASHCARD FUNCTIONS =====
@@ -940,6 +1391,7 @@
                 if (sub === 'random') {
                     currentView = 'random';
                     currentCategory = 'All';
+                    currentType = 'all';
                     document.getElementById('sub-random').style.display = 'block';
                     document.getElementById('sub-categories').style.display = 'none';
                 } else if (sub === 'categories') {
@@ -949,16 +1401,10 @@
                 }
                 document.querySelectorAll('.sub-menu-btn').forEach(b => b.classList.remove('active-sub'));
                 this.classList.add('active-sub');
+                currentIndex = 0;
                 updateUI();
             });
         });
-
-        // ===== CATEGORY SELECTION =====
-        function selectCategory(category) {
-            currentCategory = category;
-            updateCategoryFilter();
-            updateCardDisplay();
-        }
 
         // ===== MAIN MENU NAVIGATION =====
         document.querySelectorAll('.main-menu-btn').forEach(btn => {
@@ -1010,12 +1456,63 @@
             }
         }
 
+        // ===== ROMAJI CONVERTER =====
+        function toRomaji(japanese) {
+            const map = {
+                'あ': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o',
+                'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko',
+                'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so',
+                'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to',
+                'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no',
+                'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho',
+                'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo',
+                'や': 'ya', 'ゆ': 'yu', 'よ': 'yo',
+                'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro',
+                'わ': 'wa', 'を': 'wo', 'ん': 'n',
+                'が': 'ga', 'ぎ': 'gi', 'ぐ': 'gu', 'げ': 'ge', 'ご': 'go',
+                'ざ': 'za', 'じ': 'ji', 'ず': 'zu', 'ぜ': 'ze', 'ぞ': 'zo',
+                'だ': 'da', 'ぢ': 'ji', 'づ': 'zu', 'で': 'de', 'ど': 'do',
+                'ば': 'ba', 'び': 'bi', 'ぶ': 'bu', 'べ': 'be', 'ぼ': 'bo',
+                'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po',
+                'きゃ': 'kya', 'きゅ': 'kyu', 'きょ': 'kyo',
+                'しゃ': 'sha', 'しゅ': 'shu', 'しょ': 'sho',
+                'ちゃ': 'cha', 'ちゅ': 'chu', 'ちょ': 'cho',
+                'にゃ': 'nya', 'にゅ': 'nyu', 'にょ': 'nyo',
+                'ひゃ': 'hya', 'ひゅ': 'hyu', 'ひょ': 'hyo',
+                'みゃ': 'mya', 'みゅ': 'myu', 'みょ': 'myo',
+                'りゃ': 'rya', 'りゅ': 'ryu', 'りょ': 'ryo',
+                'ぎゃ': 'gya', 'ぎゅ': 'gyu', 'ぎょ': 'gyo',
+                'じゃ': 'ja', 'じゅ': 'ju', 'じょ': 'jo',
+                'びゃ': 'bya', 'びゅ': 'byu', 'びょ': 'byo',
+                'ぴゃ': 'pya', 'ぴゅ': 'pyu', 'ぴょ': 'pyo',
+                'っ': '', 'ー': ''
+            };
+            
+            let result = '';
+            let i = 0;
+            while (i < japanese.length) {
+                if (i + 1 < japanese.length) {
+                    const twoChar = japanese.substring(i, i + 2);
+                    if (map[twoChar] !== undefined) {
+                        result += map[twoChar];
+                        i += 2;
+                        continue;
+                    }
+                }
+                const char = japanese[i];
+                result += map[char] !== undefined ? map[char] : char;
+                i++;
+            }
+            return result;
+        }
+
         // ===== ADD CARD =====
         function addCard() {
             const japanese = document.getElementById('inputJapanese').value.trim();
             const romaji = document.getElementById('inputRomaji').value.trim();
             const english = document.getElementById('inputEnglish').value.trim();
             const category = document.getElementById('inputCategory').value.trim() || 'General';
+            const type = document.getElementById('inputType').value;
             const addedBy = document.getElementById('inputAddedBy').value.trim() || 'Anonymous';
 
             if (!japanese || !romaji || !english) {
@@ -1029,6 +1526,7 @@
                 romaji: romaji,
                 english: english,
                 category: category,
+                type: type,
                 addedBy: addedBy
             });
 

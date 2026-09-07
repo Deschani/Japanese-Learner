@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Japanese Phrase Learner - Sakura Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            background: 
+                linear-gradient(135deg, rgba(255, 182, 193, 0.1), rgba(255, 105, 180, 0.05)),
+                url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Cpath d="M50 10 Q60 30 50 50 Q40 30 50 10" fill="%23ffb7c5" opacity="0.3"/%3E%3Cpath d="M30 70 Q40 50 50 70 Q40 90 30 70" fill="%23ffb7c5" opacity="0.3"/%3E%3Cpath d="M70 60 Q80 40 90 60 Q80 80 70 60" fill="%23ffb7c5" opacity="0.3"/%3E%3C/svg%3E') repeat;
+            background-size: 200px 200px;
+            position: relative;
+        }
+
+        /* Japanese nature-inspired background elements */
+        body::before {
+            content: '🌸';
+            position: fixed;
+            font-size: 4rem;
+            top: 10%;
+            left: 5%;
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '🍃';
+            position: fixed;
+            font-size: 3rem;
+            bottom: 15%;
+            right: 5%;
+            opacity: 0.3;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .floating-sakura {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.2;
+            pointer-events: none;
+            animation: floatSakura 15s linear infinite;
+        }
+
+        @keyframes floatSakura {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0.2; }
+            50% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0.2; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 750px;
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.15),
+                0 0 0 1px rgba(255, 182, 193, 0.3);
+            border: 1px solid rgba(255, 182, 193, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #ffb7c5, #ff69b4, #ff1493);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .header-decoration {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: -0.5rem;
+            opacity: 0.5;
+            letter-spacing: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d1b2e;
+            margin-bottom: 0.3rem;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #2d1b2e, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8b6b7a;
+            margin-bottom: 2rem;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* Menu Styles */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .menu-btn {
+            padding: 0.8rem 0.5rem;
+            border: 2px solid #f0e1e6;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d1b2e;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.2);
+            border-color: #ffb7c5;
+        }
+
+        .menu-btn.active {
+            background: linear-gradient(135deg, #2d1b2e, #8b4b6a);
+            color: white;
+            border-color: #2d1b2e;
+            box-shadow: 0 5px 20px rgba(45, 27, 46, 0.3);
+        }
+
+        .menu-btn .icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .menu-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff1493;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Flashcard */
+        .flashcard {
+            background: linear-gradient(135deg, #fff5f7, #fef0f5);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #f0e1e6;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flashcard::before {
+            content: '🌸';
+            position: absolute;
+            font-size: 3rem;
+            top: -10px;
+            right: -5px;
+            opacity: 0.1;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.15);
+            border-color: #ffb7c5;
+        }
+
+        .flashcard .category-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 105, 180, 0.2);
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #8b4b6a;
+            font-weight: 600;
+        }
+
+        .flashcard .audio-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 105, 180, 0.15);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .flashcard .audio-btn:hover {
+            background: rgba(255, 105, 180, 0.3);
+            transform: scale(1.1);
+        }
+
+        .japanese {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2d1b2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .english {
+            font-size: 1.5rem;
+            color: #8b6b7a;
+            display: none;
+        }
+
+        .english.show {
+            display: block;
+        }
+
+        .hint {
+            font-size: 0.9rem;
+            color: #b895a5;
+            margin-top: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-prev { background: #f0e1e6; color: #2d1b2e; }
+        .btn-next { background: #2d1b2e; color: white; }
+        .btn-shuffle { background: #ff69b4; color: white; }
+        .btn-primary { background: #2d1b2e; color: white; }
+        .btn-success { background: #4caf50; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-warning { background: #f39c12; color: white; }
+        .btn-purple { background: #8b4b6a; color: white; }
+        
+        .progress {
+            text-align: center;
+            color: #8b6b7a;
+            font-size: 0.9rem;
+            margin: 0.8rem 0;
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .category-filter .cat-btn {
+            padding: 5px 15px;
+            border: 2px solid #f0e1e6;
+            border-radius: 20px;
+            background: white;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #2d1b2e;
+        }
+
+        .category-filter .cat-btn:hover {
+            border-color: #ffb7c5;
+            background: #fff5f7;
+        }
+
+        .category-filter .cat-btn.active-cat {
+            background: #2d1b2e;
+            color: white;
+            border-color: #2d1b2e;
+        }
+
+        /* Add Phrase */
+        .add-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .add-form textarea,
+        .add-form input,
+        .add-form select {
+            padding: 12px;
+            border: 2px solid #f0e1e6;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            background: white;
+        }
+
+        .add-form textarea:focus,
+        .add-form input:focus,
+        .add-form select:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+        }
+
+        .translation-result {
+            background: linear-gradient(135deg, #fff5f7, #fef0f5);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 0.5rem 0;
+            border-left: 4px solid #ff69b4;
+        }
+
+        .translation-result .label {
+            font-weight: 600;
+            color: #8b6b7a;
+            font-size: 0.9rem;
+        }
+
+        .translation-result .jp-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d1b2e;
+            margin-top: 0.3rem;
+        }
+
+        .btn-translate {
+            background: linear-gradient(135deg, #2d1b2e, #8b4b6a);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .btn-translate:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Phrase List */
+        .phrase-list {
+            margin-top: 1rem;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .phrase-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .phrase-list::-webkit-scrollbar-track {
+            background: #f0e1e6;
+            border-radius: 10px;
+        }
+
+        .phrase-list::-webkit-scrollbar-thumb {
+            background: #ffb7c5;
+            border-radius: 10px;
+        }
+
+        .phrase-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #fff5f7;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid #f0e1e6;
+        }
+
+        .phrase-item .jp { font-weight: 600; color: #2d1b2e; }
+        .phrase-item .en { color: #8b6b7a; }
+        .phrase-item .cat { 
+            font-size: 0.7rem; 
+            background: rgba(255, 105, 180, 0.15);
+            padding: 2px 10px;
+            border-radius: 10px;
+            color: #8b4b6a;
+        }
+
+        .btn-remove-small {
+            background: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            border-radius: 5px;
+        }
+
+        /* Learning Mode */
+        .learning-card {
+            text-align: center;
+            padding: 1.5rem 1rem;
+        }
+
+        .learning-card .progress-ring {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d1b2e;
+            margin: 0.8rem 0;
+        }
+
+        .learning-card .status {
+            font-size: 1rem;
+            color: #8b6b7a;
+            margin: 0.5rem 0;
+        }
+
+        .input-answer {
+            display: flex;
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .input-answer input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #f0e1e6;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .input-answer input:focus {
+            outline: none;
+            border-color: #ff69b4;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.wrong {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Quiz Mode */
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            border: 2px solid #f0e1e6;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover:not(.disabled) {
+            border-color: #ff69b4;
+            background: #fff5f7;
+            transform: scale(1.02);
+        }
+
+        .quiz-option.selected-correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .quiz-option.selected-wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .quiz-option.disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .quiz-option .correct-answer {
+            display: block;
+            font-size: 0.8rem;
+            color: #28a745;
+            margin-top: 0.3rem;
+        }
+
+        .quiz-score {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #2d1b2e;
+            margin: 1rem 0;
+        }
+
+        .quiz-score span {
+            font-weight: bold;
+            color: #ff69b4;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container { padding: 1.2rem; }
+            .japanese { font-size: 2rem; }
+            .english { font-size: 1.2rem; }
+            .menu-grid { grid-template-columns: 1fr 1fr; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .input-answer { flex-direction: column; }
+            h1 { font-size: 1.6rem; }
+            .floating-sakura { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating sakura petals -->
+    <div class="floating-sakura" style="left: 10%; animation-duration: 18s; animation-delay: 0s;">🌸</div>
+    <div class="floating-sakura" style="left: 30%; animation-duration: 22s; animation-delay: 3s;">🌸</div>
+    <div class="floating-sakura" style="left: 50%; animation-duration: 16s; animation-delay: 5s;">🌸</div>
+    <div class="floating-sakura" style="left: 70%; animation-duration: 20s; animation-delay: 2s;">🌸</div>
+    <div class="floating-sakura" style="left: 90%; animation-duration: 24s; animation-delay: 7s;">🌸</div>
+
+    <div class="container">
+        <div class="header-decoration">🌸 桜 🌸</div>
+        <h1>🇯🇵 Japanese Phrase Learner</h1>
+        <p class="subtitle">🌸 Master Japanese phrases with nature's beauty 🌸</p>
+
+        <!-- Menu -->
+        <div class="menu-grid">
+            <button class="menu-btn active" data-page="random">
+                <span class="icon">🎲</span>
+                Random
+                <span class="badge" id="randomCount">0</span>
+            </button>
+            <button class="menu-btn" data-page="categories">
+                <span class="icon">🏷️</span>
+                Categories
+                <span class="badge" id="categoryCount">0</span>
+            </button>
+            <button class="menu-btn" data-page="learning">
+                <span class="icon">📚</span>
+                Learn
+            </button>
+            <button class="menu-btn" data-page="quiz">
+                <span class="icon">🎯</span>
+                Quiz
+            </button>
+            <button class="menu-btn" data-page="add">
+                <span class="icon">➕</span>
+                Add
+            </button>
+        </div>
+
+        <!-- Page: Random -->
+        <div id="page-random" class="page active">
+            <div class="flashcard" id="flashcard">
+                <span class="category-tag" id="randomCategory">General</span>
+                <div class="japanese" id="japaneseText">Konnichiwa</div>
+                <div class="english" id="englishText">Hello</div>
+                <div class="hint">👆 Tap to reveal • 🔊 Click speaker to hear</div>
+                <button class="audio-btn" onclick="speakText(document.getElementById('japaneseText').textContent)">🔊</button>
+            </div>
+            <div class="progress" id="progress">1 / 10</div>
+            <div class="controls">
+                <button class="btn-prev" onclick="prevCard()">◀ Previous</button>
+                <button class="btn-shuffle" onclick="shuffleCards()">🔀 Shuffle</button>
+                <button class="btn-next" onclick="nextCard()">Next ▶</button>
+            </div>
+        </div>
+
+        <!-- Page: Categories -->
+        <div id="page-categories" class="page">
+            <h3 style="color:#2d1b2e; margin-bottom:1rem;">🏷️ Categories</h3>
+            <div id="categoryList"></div>
+            <div style="margin-top:1.5rem;">
+                <h4 style="color:#2d1b2e; margin-bottom:0.5rem;">Phrases in selected category:</h4>
+                <div id="categoryPhrases"></div>
+            </div>
+        </div>
+
+        <!-- Page: Learning -->
+        <div id="page-learning" class="page">
+            <div class="learning-card">
+                <h3>📚 Learning Mode</h3>
+                <p class="status" id="learningStatus">Type the English translation</p>
+                
+                <div class="flashcard" id="learningFlashcard" style="cursor:default;">
+                    <span class="category-tag" id="learningCategory">General</span>
+                    <div class="japanese" id="learningJapanese">Konnichiwa</div>
+                    <div class="hint" id="learningHint">💡 Type the English translation below</div>
+                    <button class="audio-btn" onclick="speakText(document.getElementById('learningJapanese').textContent)">🔊</button>
+                </div>
+
+                <div class="input-answer">
+                    <input type="text" id="learningInput" placeholder="Type English translation..." />
+                    <button class="btn-success" onclick="checkAnswer()">Check ✓</button>
+                </div>
+
+                <div id="learningFeedback"></div>
+                <div class="progress-ring" id="learningProgress">0 / 0</div>
+                <button class="btn-shuffle" onclick="resetLearning()">🔄 Reset Learning</button>
+            </div>
+        </div>
+
+        <!-- Page: Quiz -->
+        <div id="page-quiz" class="page">
+            <div class="learning-card">
+                <h3>🎯 Quiz Mode</h3>
+                <p class="status" id="quizStatus">Choose the correct translation!</p>
+                
+                <div class="flashcard" id="quizFlashcard" style="cursor:default;">
+                    <span class="category-tag" id="quizCategory">General</span>
+                    <div class="japanese" id="quizJapanese">Konnichiwa</div>
+                    <div class="hint" style="margin-top:0.5rem;">Select the correct English translation</div>
+                    <button class="audio-btn" onclick="speakText(document.getElementById('quizJapanese').textContent)">🔊</button>
+                </div>
+
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="quiz-score">Score: <span id="quizScore">0</span> / <span id="quizTotal">0</span></div>
+                <button class="btn-shuffle" onclick="startQuiz()">🔄 New Quiz</button>
+            </div>
+        </div>
+
+        <!-- Page: Add -->
+        <div id="page-add" class="page">
+            <div class="add-section">
+                <h3>➕ Add New Phrase</h3>
+                <div class="add-form">
+                    <input type="text" id="categoryInput" placeholder="Category (e.g. Greetings, Food, Travel)" />
+                    <textarea id="enInput" rows="2" placeholder="Type an English sentence..."></textarea>
+                    <button class="btn-translate" onclick="translateAndAdd()">🌐 Translate to Japanese</button>
+                    
+                    <div id="translationResult" style="display:none;">
+                        <div class="translation-result">
+                            <div class="label">🇯🇵 Japanese Translation:</div>
+                            <div class="jp-text" id="translatedText">-</div>
+                        </div>
+                        <button class="btn-success" onclick="addTranslatedPhrase()" style="width:100%;">
+                            ✅ Add Phrase to List
+                        </button>
+                    </div>
+                </div>
+
+                <hr style="margin: 2rem 0; border-color:#f0e1e6;" />
+
+                <h4>📋 Your Phrases</h4>
+                <div class="phrase-list" id="phraseList"></div>
+                
+                <div style="display:flex; gap:0.5rem; margin-top:1rem; flex-wrap:wrap;">
+                    <button class="btn-danger" onclick="clearAllPhrases()" style="flex:1;">
+                        🗑️ Delete All
+                    </button>
+                    <button class="btn-primary" onclick="exportPhrases()" style="flex:1;">
+                        💾 Export
+                    </button>
+                    <button class="btn-purple" onclick="document.getElementById('importFile').click()" style="flex:1;">
+                        📥 Import
+                    </button>
+                    <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importPhrases(event)" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== DATA WITH CATEGORIES =====
+        let phrases = [
+            { japanese: 'Konnichiwa', english: 'Hello', category: 'Greetings' },
+            { japanese: 'Ohayou gozaimasu', english: 'Good morning', category: 'Greetings' },
+            { japanese: 'Konbanwa', english: 'Good evening', category: 'Greetings' },
+            { japanese: 'Sayounara', english: 'Goodbye', category: 'Greetings' },
+            { japanese: 'Arigatou', english: 'Thank you', category: 'Basic Phrases' },
+            { japanese: 'Sumimasen', english: 'Excuse me / Sorry', category: 'Basic Phrases' },
+            { japanese: 'Hai', english: 'Yes', category: 'Basic Phrases' },
+            { japanese: 'Iie', english: 'No', category: 'Basic Phrases' },
+            { japanese: 'Onegaishimasu', english: 'Please', category: 'Basic Phrases' },
+            { japanese: 'Oishii', english: 'Delicious', category: 'Food' },
+            { japanese: 'Kawaii', english: 'Cute', category: 'Compliments' },
+            { japanese: 'Kakkoii', english: 'Cool / Handsome', category: 'Compliments' },
+            { japanese: 'Daijoubu', english: 'It\'s okay / Fine', category: 'Responses' },
+            { japanese: 'Wakarimasen', english: 'I don\'t understand', category: 'Basic Phrases' },
+            { japanese: 'Toire wa doko desu ka?', english: 'Where is the toilet?', category: 'Travel' },
+            { japanese: 'Ikura desu ka?', english: 'How much is it?', category: 'Travel' },
+            { japanese: 'Eigo o hanasemasu ka?', english: 'Can you speak English?', category: 'Travel' },
+            { japanese: 'Tasukete!', english: 'Help!', category: 'Emergency' }
+        ];
+
+        let currentIndex = 0;
+        let isShowingEnglish = false;
+        let translatedPhrase = null;
+        let currentCategory = 'All';
+        let filteredPhrases = [];
+
+        // Learning Mode
+        let learningIndex = 0;
+        let learningPhrases = [];
+        let learningResults = [];
+
+        // Quiz Mode
+        let quizQuestions = [];
+        let quizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        // ===== LOCAL STORAGE =====
+        function loadPhrases() {
+            const saved = localStorage.getItem('japanesePhrases');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.length > 0) phrases = parsed;
+                } catch (e) {}
+            }
+            updateUI();
+            updateCounts();
+            renderCategories();
+        }
+
+        function savePhrases() {
+            localStorage.setItem('japanesePhrases', JSON.stringify(phrases));
+            updateCounts();
+            renderCategories();
+            renderPhraseList();
+        }
+
+        // ===== SPEECH SYNTHESIS =====
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ja-JP';
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('Text-to-speech is not supported in your browser.');
+            }
+        }
+
+        // ===== CATEGORIES =====
+        function getCategories() {
+            const cats = new Set(phrases.map(p => p.category || 'Uncategorized'));
+            return ['All', ...Array.from(cats)];
+        }
+
+        function getPhrasesByCategory(category) {
+            if (category === 'All') return phrases;
+            return phrases.filter(p => (p.category || 'Uncategorized') === category);
+        }
+
+        function renderCategories() {
+            const list = document.getElementById('categoryList');
+            const categories = getCategories();
+            
+            list.innerHTML = `
+                <div class="category-filter">
+                    ${categories.map(cat => `
+                        <button class="cat-btn ${cat === currentCategory ? 'active-cat' : ''}" 
+                                onclick="selectCategory('${cat}')">
+                            ${cat} (${getPhrasesByCategory(cat).length})
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Show phrases for current category
+            const phrases = getPhrasesByCategory(currentCategory);
+            const container = document.getElementById('categoryPhrases');
+            if (phrases.length === 0) {
+                container.innerHTML = '<p style="color:#8b6b7a;">No phrases in this category.</p>';
+            } else {
+                container.innerHTML = phrases.map((p, i) => `
+                    <div class="phrase-item" style="margin-bottom:5px;">
+                        <span>
+                            <span class="jp">${p.japanese}</span> — 
+                            <span class="en">${p.english}</span>
+                        </span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            renderCategories();
+            // Update random mode to use filtered phrases
+            filteredPhrases = getPhrasesByCategory(category);
+            if (filteredPhrases.length > 0) {
+                currentIndex = 0;
+                updateUI();
+            }
+            document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-page="random"]').classList.add('active');
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-random').classList.add('active');
+        }
+
+        // ===== MENU NAVIGATION =====
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const page = this.dataset.page;
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById(`page-${page}`).classList.add('active');
+
+                if (page === 'learning') startLearning();
+                if (page === 'random') updateUI();
+                if (page === 'add') renderPhraseList();
+                if (page === 'quiz') startQuiz();
+                if (page === 'categories') renderCategories();
+            });
+        });
+
+        // ===== RANDOM PHRASE =====
+        function getCurrentPhrases() {
+            return currentCategory === 'All' ? phrases : getPhrasesByCategory(currentCategory);
+        }
+
+        function updateUI() {
+            const currentPhrases = getCurrentPhrases();
+            
+            if (currentPhrases.length === 0) {
+                document.getElementById('japaneseText').textContent = 'No phrases in this category!';
+                document.getElementById('englishText').textContent = 'Add some phrases';
+                document.getElementById('englishText').classList.remove('show');
+                document.getElementById('progress').textContent = '0 / 0';
+                document.getElementById('randomCategory').textContent = 'Empty';
+                return;
+            }
+
+            if (currentIndex >= currentPhrases.length) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = currentPhrases.length - 1;
+
+            const phrase = currentPhrases[currentIndex];
+            document.getElementById('japaneseText').textContent = phrase.japanese;
+            document.getElementById('englishText').textContent = phrase.english;
+            document.getElementById('englishText').classList.remove('show');
+            document.getElementById('randomCategory').textContent = phrase.category || 'Uncategorized';
+            isShowingEnglish = false;
+            document.getElementById('progress').textContent = `${currentIndex + 1} / ${currentPhrases.length}`;
+            savePhrases();
+        }
+
+        function toggleCard() {
+            const englishEl = document.getElementById('englishText');
+            if (isShowingEnglish) {
+                englishEl.classList.remove('show');
+                isShowingEnglish = false;
+            } else {
+                englishEl.classList.add('show');
+                isShowingEnglish = true;
+            }
+        }
+
+        function nextCard() {
+            const currentPhrases = getCurrentPhrases();
+            if (currentPhrases.length === 0) return;
+            currentIndex = (currentIndex + 1) % currentPhrases.length;
+            updateUI();
+        }
+
+        function prevCard() {
+            const currentPhrases = getCurrentPhrases();
+            if (currentPhrases.length === 0) return;
+            currentIndex = (currentIndex - 1 + currentPhrases.length) % currentPhrases.length;
+            updateUI();
+        }
+
+        function shuffleCards() {
+            const currentPhrases = getCurrentPhrases();
+            for (let i = currentPhrases.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentPhrases[i], currentPhrases[j]] = [currentPhrases[j], currentPhrases[i]];
+            }
+            currentIndex = 0;
+            updateUI();
+        }
+
+        document.getElementById('flashcard').addEventListener('click', toggleCard);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && document.getElementById('page-random').classList.contains('active')) nextCard();
+            if (e.key === 'ArrowLeft' && document.getElementById('page-random').classList.contains('active')) prevCard();
+            if (e.key === ' ' && document.getElementById('page-random').classList.contains('active')) {
+                e.preventDefault();
+                toggleCard();
+            }
+            if (e.key === 'Enter' && document.getElementById('page-learning').classList.contains('active')) {
+                checkAnswer();
+            }
+        });
+
+        // ===== ADD PHRASE WITH TRANSLATION =====
+        async function translateAndAdd() {
+            const enInput = document.getElementById('enInput');
+            const categoryInput = document.getElementById('categoryInput');
+            const text = enInput.value.trim();
+            const category = categoryInput.value.trim() || 'General';
+            
+            if (!text) {
+                alert('Please enter an English sentence first!');
+                return;
+            }
+
+            const translateBtn = document.querySelector('.btn-translate');
+            translateBtn.disabled = true;
+            translateBtn.textContent = '⏳ Translating...';
+
+            try {
+                const response = await fetch(
+                    `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ja&dt=t&q=${encodeURIComponent(text)}`
+                );
+                const data = await response.json();
+                const japaneseTranslation = data[0][0][0];
+                
+                translatedPhrase = {
+                    japanese: japaneseTranslation,
+                    english: text,
+                    category: category
+                };
+
+                document.getElementById('translatedText').textContent = japaneseTranslation;
+                document.getElementById('translationResult').style.display = 'block';
+            } catch (error) {
+                alert('Translation failed! Please try again.');
+                console.error(error);
+            } finally {
+                translateBtn.disabled = false;
+                translateBtn.textContent = '🌐 Translate to Japanese';
+            }
+        }
+
+        function addTranslatedPhrase() {
+            if (!translatedPhrase) return;
+            
+            phrases.push({
+                japanese: translatedPhrase.japanese,
+                english: translatedPhrase.english,
+                category: translatedPhrase.category
+            });
+            
+            document.getElementById('enInput').value = '';
+            document.getElementById('categoryInput').value = '';
+            document.getElementById('translationResult').style.display = 'none';
+            translatedPhrase = null;
+            
+            renderPhraseList();
+            savePhrases();
+            updateUI();
+            updateCounts();
+            alert('✅ Phrase added successfully!');
+        }
+
+        // ===== PHRASE LIST =====
+        function renderPhraseList() {
+            const list = document.getElementById('phraseList');
+            if (phrases.length === 0) {
+                list.innerHTML = '<p style="color:#8b6b7a;text-align:center;padding:1rem;">🌸 No phrases yet. Add some above!</p>';
+                return;
+            }
+            list.innerHTML = phrases.map((p, i) => `
+                <div class="phrase-item">
+                    <span>
+                        <span class="jp">${p.japanese}</span> — 
+                        <span class="en">${p.english}</span>
+                        <span class="cat">${p.category || 'Uncategorized'}</span>
+                    </span>
+                    <button class="btn-remove-small" onclick="removePhrase(${i})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function removePhrase(index) {
+            if (confirm('Remove this phrase?')) {
+                phrases.splice(index, 1);
+                if (currentIndex >= phrases.length) currentIndex = phrases.length - 1;
+                renderPhraseList();
+                updateUI();
+                savePhrases();
+                renderCategories();
+            }
+        }
+
+        function clearAllPhrases() {
+            if (confirm('⚠️ Delete ALL phrases? This cannot be undone!')) {
+                phrases = [];
+                currentIndex = 0;
+                renderPhraseList();
+                updateUI();
+                savePhrases();
+                renderCategories();
+                updateCounts();
+            }
+        }
+
+        function exportPhrases() {
+            const data = JSON.stringify(phrases, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `japanese-phrases-${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importPhrases(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported) && imported.length > 0) {
+                        phrases = imported;
+                        savePhrases();
+                        updateUI();
+                        renderCategories();
+                        renderPhraseList();
+                        updateCounts();
+                        alert(`✅ Imported ${phrases.length} phrases!`);
+                    } else {
+                        alert('Invalid file format.');
+                    }
+                } catch (err) {
+                    alert('Error reading file.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ===== LEARNING MODE =====
+        function startLearning() {
+            if (phrases.length === 0) {
+                document.getElementById('learningJapanese').textContent = '🌸 No phrases to learn!';
+                document.getElementById('learningHint').textContent = 'Add some phrases first';
+                document.getElementById('learningProgress').textContent = '0 / 0';
+                document.getElementById('learningCategory').textContent = '—';
+                return;
+            }
+
+            learningPhrases = [...phrases];
+            learningResults = new Array(learningPhrases.length).fill(false);
+            learningIndex = 0;
+            showLearningCard();
+        }
+
+        function showLearningCard() {
+            if (learningIndex >= learningPhrases.length) {
+                if (learningResults.every(r => r === true)) {
+                    document.getElementById('learningJapanese').textContent = '🎉 All Done!';
+                    document.getElementById('learningHint').textContent = '🌸 You\'ve learned all phrases!';
+                    document.getElementById('learningInput').style.display = 'none';
+                    document.querySelector('.btn-check').style.display = 'none';
+                    document.getElementById('learningProgress').textContent = `${learningResults.filter(r => r).length} / ${learningPhrases.length}`;
+                    document.getElementById('learningStatus').textContent = '🌟 Amazing! You\'ve mastered everything!';
+                    document.getElementById('learningCategory').textContent = '🎊';
+                    return;
+                }
+                learningIndex = learningResults.indexOf(false);
+                if (learningIndex === -1) {
+                    document.getElementById('learningJapanese').textContent = '🎉 All Done!';
+                    document.getElementById('learningHint').textContent = '🌸 You\'ve learned all phrases!';
+                    document.getElementById('learningInput').style.display = 'none';
+                    document.querySelector('.btn-check').style.display = 'none';
+                    document.getElementById('learningProgress').textContent = `${learningResults.filter(r => r).length} / ${learningPhrases.length}`;
+                    document.getElementById('learningStatus').textContent = '🌟 Amazing! You\'ve mastered everything!';
+                    document.getElementById('learningCategory').textContent = '🎊';
+                    return;
+                }
+            }
+
+            const phrase = learningPhrases[learningIndex];
+            document.getElementById('learningJapanese').textContent = phrase.japanese;
+            document.getElementById('learningHint').textContent = '💡 Type the English translation below';
+            document.getElementById('learningInput').style.display = 'block';
+            document.querySelector('.btn-check').style.display = 'inline-block';
+            document.getElementById('learningInput').value = '';
+            document.getElementById('learningInput').focus();
+            document.getElementById('learningProgress').textContent = `${learningResults.filter(r => r).length} / ${learningPhrases.length}`;
+            document.getElementById('learningCategory').textContent = phrase.category || 'Uncategorized';
+            
+            const total = learningPhrases.length;
+            const learned = learningResults.filter(r => r).length;
+            document.getElementById('learningStatus').textContent = `🌸 You've mastered ${learned} out of ${total} phrases`;
+            document.getElementById('learningFeedback').innerHTML = '';
+        }
+
+        function checkAnswer() {
+            if (learningIndex >= learningPhrases.length) return;
+            
+            const input = document.getElementById('learningInput');
+            const answer = input.value.trim();
+            const phrase = learningPhrases[learningIndex];
+            
+            if (!answer) {
+                alert('Please type an answer!');
+                return;
+            }
+
+            const feedback = document.getElementById('learningFeedback');
+            
+            if (answer.toLowerCase().trim() === phrase.english.toLowerCase().trim()) {
+                feedback.innerHTML = '<div class="feedback correct">✅ Correct! Well done! 🌸</div>';
+                learningResults[learningIndex] = true;
+                learningIndex++;
+                setTimeout(showLearningCard, 1500);
+            } else {
+                feedback.innerHTML = `<div class="feedback wrong">❌ Wrong! The answer is: "${phrase.english}"</div>`;
+                learningIndex++;
+                setTimeout(showLearningCard, 2000);
+            }
+            
+            input.value = '';
+        }
+
+        function resetLearning() {
+            if (confirm('Reset learning progress?')) {
+                startLearning();
+            }
+        }
+
+        document.getElementById('learningInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                checkAnswer();
+            }
+        });
+
+        // ===== QUIZ MODE =====
+        function startQuiz() {
+            if (phrases.length < 4) {
+                alert('🌸 Need at least 4 phrases for a quiz! Please add more phrases.');
+                return;
+            }
+
+            // Select random phrases for quiz (up to 10)
+            const shuffled = [...phrases].sort(() => Math.random() - 0.5);
+            const numQuestions = Math.min(10, shuffled.length);
+            quizQuestions = shuffled.slice(0, numQuestions);
+            quizIndex = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            showQuizQuestion();
+            document.getElementById('quizScore').textContent = '0';
+            document.getElementById('quizTotal').textContent = numQuestions;
+        }
+
+        function showQuizQuestion() {
+            if (quizIndex >= quizQuestions.length) {
+                document.getElementById('quizJapanese').textContent = '🎉 Quiz Complete!';
+                document.getElementById('quizHint').textContent = `You scored ${quizScore}/${quizQuestions.length}!`;
+                document.getElementById('quizOptions').innerHTML = '';
+                document.getElementById('quizCategory').textContent = '🎊';
+                document.getElementById('quizStatus').textContent = `🌟 Final Score: ${quizScore}/${quizQuestions.length}`;
+                document.getElementById('quizScore').textContent = quizScore;
+                return;
+            }
+
+            const question = quizQuestions[quizIndex];
+            document.getElementById('quizJapanese').textContent = question.japanese;
+            document.getElementById('quizCategory').textContent = question.category || 'Uncategorized';
+            document.getElementById('quizStatus').textContent = `Question ${quizIndex + 1} of ${quizQuestions.length}`;
+            document.getElementById('quizScore').textContent = quizScore;
+            document.getElementById('quizTotal').textContent = quizQuestions.length;
+            quizAnswered = false;
+
+            // Get wrong answers (random from other phrases)
+            let wrongAnswers = phrases
+                .filter(p => p.english !== question.english)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3);
+
+            // If not enough wrong answers, add more from quiz questions
+            if (wrongAnswers.length < 3) {
+                const extra = quizQuestions
+                    .filter(q => q.english !== question.english && !wrongAnswers.includes(q))
+                    .slice(0, 3 - wrongAnswers.length);
+                wrongAnswers = [...wrongAnswers, ...extra];
+            }
+
+            const options = [question.english, ...wrongAnswers.map(p => p.english)]
+                .sort(() => Math.random() - 0.5);
+
+            document.getElementById('quizOptions').innerHTML = options.map(opt => `
+                <button class="quiz-option" onclick="selectQuizAnswer('${opt}', '${question.english}')">
+                    ${opt}
+                </button>
+            `).join('');
+        }
+
+        function selectQuizAnswer(selected, correct) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const buttons = document.querySelectorAll('.quiz-option');
+            buttons.forEach(btn => {
+                btn.classList.add('disabled');
+                if (btn.textContent === correct) {
+                    btn.classList.add('selected-correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('selected-wrong');
+                }
+            });
+
+            if (selected === correct) {
+                quizScore++;
+                document.getElementById('quizScore').textContent = quizScore;
+                document.getElementById('quizStatus').textContent = '✅ Correct! 🌸';
+            } else {
+                document.getElementById('quizStatus').textContent = `❌ Wrong! The answer was: "${correct}"`;
+            }
+
+            setTimeout(() => {
+                quizIndex++;
+                showQuizQuestion();
+            }, 2000);
+        }
+
+        // ===== UPDATE COUNTS =====
+        function updateCounts() {
+            document.getElementById('randomCount').textContent = phrases.length;
+            document.getElementById('categoryCount').textContent = getCategories().length - 1;
+        }
+
+        // ===== INIT =====
+        loadPhrases();
+        renderPhraseList();
+        renderCategories();
+        updateCounts();
+
+        // Create initial filtered phrases
+        filteredPhrases = phrases;
+    </script>
+</body>
+</html>
